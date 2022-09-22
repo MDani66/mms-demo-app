@@ -1,15 +1,11 @@
 package com.tsystems.mms.demoapp.user;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tsystems.mms.demoapp.exceptionhandling.UserNotFoundException;
-
-import net.bytebuddy.implementation.bytecode.constant.MethodConstant.CanCache;
-
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * This service manages all user.
@@ -33,10 +29,12 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public void saveUser(User user) {
-		userRepository.save(user);
+	public User saveUser(UserCreateCommand command) {
+		User user = mapCommandToUser(command);
+		User userSaved = userRepository.save(user);
+		return userSaved;
 	}
-	
+
 	public User getUserById(Long id) {
 		return userRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("Can not find user with id" + id));
@@ -44,11 +42,33 @@ public class UserService {
 
 	public void updateUser(Long userId, UserUpdateCommand command) {
 		User userToUpdate = this.getUserById(userId);
-		userToUpdate.setEmail(command.getEmail());
+		if (command.getEmail() != null) {
+			userToUpdate.setEmail(command.getEmail());
+		}
+		if (command.getFirstname() != null) {
+			userToUpdate.setFirstName(command.getFirstname());
+		}
+		if (command.getSurname() != null) {
+			userToUpdate.setSurName(command.getSurname());
+			;
+		}
+		if (command.getGender() != null) {
+			userToUpdate.setGender(command.getGender());
+		}
+
 	}
 
 	public void deleteUser(Long userId) {
 		User userToDelete = this.getUserById(userId);
 		userRepository.delete(userToDelete);
+	}
+
+	public User mapCommandToUser(UserCreateCommand command) {
+		User user = new User();
+		user.setEmail(command.getEmail());
+		user.setFirstName(command.getFirstname());
+		user.setSurName(command.getSurname());
+		user.setGender(command.getGender());
+		return user;
 	}
 }
