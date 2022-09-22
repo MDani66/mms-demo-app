@@ -44,6 +44,21 @@ public class UserServiceTest {
     Mockito.verify(userRepository, Mockito.atMostOnce()).findAll();
 
   }
+  
+  @Test
+  void testUserEmailValidation_validEmail_success() {
+	  Assertions.assertTrue(userService.userEmailValidation("goodemail@bar.com"));
+  }
+  
+  @Test
+  void testUserEmailValidation_invalidEmail_fail() {
+	  Assertions.assertFalse(userService.userEmailValidation("bademailbar.com"));
+  }
+  
+  @Test
+  void testUserEmailValidation_invalidEmail2_fail() {
+	  Assertions.assertFalse(userService.userEmailValidation("bademail@barcom"));
+  }
 
   private User createUser(Long id, String email) {
     User user = new User();

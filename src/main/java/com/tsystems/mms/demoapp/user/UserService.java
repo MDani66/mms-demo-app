@@ -1,10 +1,13 @@
 package com.tsystems.mms.demoapp.user;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tsystems.mms.demoapp.exceptionhandling.InvalidEmailException;
 import com.tsystems.mms.demoapp.exceptionhandling.UserNotFoundException;
 
 /**
@@ -43,7 +46,12 @@ public class UserService {
 	public void updateUser(Long userId, UserUpdateCommand command) {
 		User userToUpdate = this.getUserById(userId);
 		if (command.getEmail() != null) {
-			userToUpdate.setEmail(command.getEmail());
+			if (userEmailValidation(command.getEmail())) {
+				userToUpdate.setEmail(command.getEmail());
+			} else {
+				throw new InvalidEmailException("Invalid email");
+			}
+
 		}
 		if (command.getFirstname() != null) {
 			userToUpdate.setFirstName(command.getFirstname());
@@ -65,10 +73,22 @@ public class UserService {
 
 	public User mapCommandToUser(UserCreateCommand command) {
 		User user = new User();
-		user.setEmail(command.getEmail());
+		if (userEmailValidation(command.getEmail())) {
+			user.setEmail(command.getEmail());
+		} else {
+			throw new InvalidEmailException("Invalid email");
+		}
 		user.setFirstName(command.getFirstname());
 		user.setSurName(command.getSurname());
 		user.setGender(command.getGender());
 		return user;
 	}
+
+	public boolean userEmailValidation(String email) {
+		String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+		Pattern emailPattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = emailPattern.matcher(email);
+		return matcher.find();
+	}
+
 }
