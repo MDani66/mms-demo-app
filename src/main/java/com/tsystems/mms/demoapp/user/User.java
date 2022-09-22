@@ -17,6 +17,10 @@ public class User implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
   protected Long id;
+  
+  public User() {
+	  
+  }
 
   @Column(name = "email", nullable = false)
   private String email;
