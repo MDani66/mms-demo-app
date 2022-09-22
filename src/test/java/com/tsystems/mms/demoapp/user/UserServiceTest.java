@@ -21,7 +21,7 @@ public class UserServiceTest {
 
   @BeforeEach
   public void setup() {
-    userService = new UserService(userRepository);
+    userService = new UserService(userRepository, null);
     testUsers = new ArrayList<>();
     testUsers.add(createUser(1L,"test1.user@foo.bar"));
     testUsers.add(createUser(2L,"test2.user@foo.bar"));

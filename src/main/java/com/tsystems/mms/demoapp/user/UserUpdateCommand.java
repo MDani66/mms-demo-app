@@ -10,7 +10,8 @@ public class UserUpdateCommand {
 
 	private Gender gender;
 
-
+	private Long unitId;
+	
 	/**
 	 * 
 	 */
@@ -62,6 +63,18 @@ public class UserUpdateCommand {
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+
+
+	public Long getUnitId() {
+		return unitId;
+	}
+
+
+
+	public void setUnitId(Long unitId) {
+		this.unitId = unitId;
 	}
 
 }

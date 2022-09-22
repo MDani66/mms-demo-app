@@ -9,7 +9,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "demo_user")
@@ -34,6 +38,10 @@ public class User implements Serializable {
 	@Column(name = "gender", nullable = false)
 	@Enumerated(value = EnumType.STRING)
 	private Gender gender;
+
+	@ManyToOne
+	@JoinColumn(name = "org_unit_id")
+	private OrganisationalUnit organisationalUnit;
 
 	public User() {
 
@@ -79,9 +87,19 @@ public class User implements Serializable {
 		this.gender = gender;
 	}
 
+	public OrganisationalUnit getOrganisationalUnit() {
+		return organisationalUnit;
+	}
+
+	public void setOrganisationalUnit(OrganisationalUnit organisationalUnit) {
+		this.organisationalUnit = organisationalUnit;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", surName=" + surName + ", gender="
-				+ gender + "]";
+				+ gender + ", organisationalUnit=" + organisationalUnit + "]";
 	}
+
+	
 }

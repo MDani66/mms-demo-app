@@ -9,6 +9,8 @@ public class UserCreateCommand {
 	private String surname;
 	
 	private Gender gender;
+	
+	private Long unitId;
 
 	/**
 	 * 
@@ -48,6 +50,13 @@ public class UserCreateCommand {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	
+
+	public Long getUnitId() {
+		return unitId;
+	}
+
+	public void setUnitId(Long unitId) {
+		this.unitId = unitId;
+	}
 
 }

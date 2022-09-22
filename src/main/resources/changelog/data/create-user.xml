@@ -35,4 +35,29 @@
 			</column>
 		</addColumn>
 	</changeSet>
+	<!-- <changeSet id="create-org-unit" author="mse"> -->
+	<!-- <createTable tableName="org_unit"> -->
+	<!-- <column name="org_unit_id" autoIncrement="true" type="BIGINT"> -->
+	<!-- <constraints primaryKey="true" /> -->
+	<!-- </column> -->
+	<!-- <column name="user_id" type="BIGINT" /> -->
+	<!-- </createTable> -->
+	<!-- </changeSet> -->
+	<!-- <changeSet id="add-columns" author="mse"> -->
+	<!-- <addColumn tableName="demo_user"> -->
+	<!-- <column name="org_unit_id" type="BIGINT"> -->
+	<!-- <constraints nullable="true" /> -->
+	<!-- </column> -->
+	<!-- </addColumn> -->
+	<!-- </changeSet> -->
+	<!-- <changeSet id="add-foreign-key" author="mse"> -->
+	<!-- <addForeignKeyConstraint -->
+	<!-- baseColumnNames="org_unit_id" -->
+	<!-- baseTableName="demo_user" -->
+	<!-- constraintName="fk_org_unit" -->
+	<!-- referencedTableName="org_unit" -->
+	<!-- referencedColumnNames="org_unit_id" -->
+	<!-- > -->
+	<!-- </addForeignKeyConstraint > -->
+	<!-- </changeSet> -->
 </databaseChangeLog>

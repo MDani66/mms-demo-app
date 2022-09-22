@@ -1,6 +1,7 @@
 package com.tsystems.mms.demoapp.user;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tsystems.mms.demoapp.exceptionhandling.InvalidEmailException;
 import com.tsystems.mms.demoapp.exceptionhandling.UserNotFoundException;
+import com.tsystems.mms.demoapp.orgunit.OrgUnitService;
 
 /**
  * This service manages all user.
@@ -18,9 +20,11 @@ import com.tsystems.mms.demoapp.exceptionhandling.UserNotFoundException;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final OrgUnitService unitService;
 
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, OrgUnitService unitService) {
 		this.userRepository = userRepository;
+		this.unitService = unitService;
 	}
 
 	/**
@@ -63,6 +67,10 @@ public class UserService {
 		if (command.getGender() != null) {
 			userToUpdate.setGender(command.getGender());
 		}
+		if (command.getUnitId() != null) {
+			OrganisationalUnit orgUnit = getOrganisationalUnit(command.getUnitId());
+			userToUpdate.setOrganisationalUnit(orgUnit);
+		}
 
 	}
 
@@ -81,6 +89,8 @@ public class UserService {
 		user.setFirstName(command.getFirstname());
 		user.setSurName(command.getSurname());
 		user.setGender(command.getGender());
+		OrganisationalUnit orgUnit = getOrganisationalUnit(command.getUnitId());
+		user.setOrganisationalUnit(orgUnit);
 		return user;
 	}
 
@@ -89,6 +99,11 @@ public class UserService {
 		Pattern emailPattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = emailPattern.matcher(email);
 		return matcher.find();
+	}
+	
+	public OrganisationalUnit getOrganisationalUnit(Long id) {
+		Optional<OrganisationalUnit> orgUnit = unitService.getOrgUnit(id);
+		return orgUnit.get();
 	}
 
 }
